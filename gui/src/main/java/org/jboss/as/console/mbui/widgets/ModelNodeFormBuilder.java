@@ -439,13 +439,13 @@ public class ModelNodeFormBuilder {
         if (requiredItems.isEmpty()) {
             // no required fields explicitly given, treat all fields as required
             if (createMode) {
-                optionalItems.addFirst(new TextBoxItem("name", "Name", true));
+                optionalItems.addFirst(createNameItem());
                 numWritable++;
             }
             form.setFields(optionalItems.toArray(new FormItem[]{}));
         } else {
             if (createMode) {
-                requiredItems.addFirst(new TextBoxItem("name", "Name", true));
+                requiredItems.addFirst(createNameItem());
                 numWritable++;
             }
 
@@ -462,6 +462,10 @@ public class ModelNodeFormBuilder {
         FormAssets formAssets = new FormAssets(form, helpTexts.toSafeHtml());
         formAssets.setUnsupportedTypes(unsupportedTypes);
         return formAssets;
+    }
+
+    protected TextBoxItem createNameItem() {
+        return new TextBoxItem("name", "Name", true);
     }
 
     private boolean isRequired(ModelNode attributeDescription) {

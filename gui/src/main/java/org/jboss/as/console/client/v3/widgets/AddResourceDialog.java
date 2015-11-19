@@ -30,7 +30,9 @@ import org.jboss.as.console.client.widgets.ContentDescription;
 import org.jboss.as.console.mbui.widgets.ModelNodeForm;
 import org.jboss.as.console.mbui.widgets.ModelNodeFormBuilder;
 import org.jboss.ballroom.client.rbac.SecurityContext;
+import org.jboss.ballroom.client.widgets.forms.FormItem;
 import org.jboss.ballroom.client.widgets.forms.FormValidation;
+import org.jboss.ballroom.client.widgets.forms.TextBoxItem;
 import org.jboss.ballroom.client.widgets.window.DialogueOptions;
 import org.jboss.ballroom.client.widgets.window.TrappedFocusPanel;
 import org.jboss.dmr.client.ModelNode;
@@ -81,8 +83,16 @@ public class AddResourceDialog implements IsWidget {
 
     @Override
     public Widget asWidget() {
-        ModelNodeFormBuilder builder = new ModelNodeFormBuilder()
-                .setCreateMode(true)
+        ModelNodeFormBuilder builder = new ModelNodeFormBuilder() {
+            @Override
+            protected TextBoxItem createNameItem() {
+                TextBoxItem nameItem = super.createNameItem();
+                nameItem.setAllowWhiteSpace(true);
+                return nameItem;
+            }
+        };
+
+        builder.setCreateMode(true)
                 .setResourceDescription(resourceDescription)
                 .setRequiredOnly(true)
                 .setSecurityContext(securityContext);
